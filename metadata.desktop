@@ -1,0 +1,14 @@
+[SddmGreeterTheme]
+Name=loomlight
+Description=loomlight
+Author=mermonia
+Website=
+License=MIT
+Type=sddm-theme
+Version=0.1
+ConfigFile=Themes/theme.conf
+Screenshot=
+MainScript=Main.qml
+Theme-Id=loomlight
+Theme-API=2.0
+QtVersion=6
