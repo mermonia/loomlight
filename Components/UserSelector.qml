@@ -72,6 +72,7 @@ Item {
                 id: tapHandler
                 acceptedDevices: PointerDevice.AllDevices
                 gesturePolicy: TapHandler.ReleaseWithinBounds
+                longPressThreshold: 0.5 
                 onTapped: function() {
                     if (carousel.currentIndex == wrapper.index) {
                         root.selected(wrapper.name)
