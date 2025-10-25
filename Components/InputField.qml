@@ -19,30 +19,30 @@ FocusScope {
     property alias placeholderText: placeholderText.text
     property alias textFocus: textInput.focus
 
-    signal accepted()
-    signal editingFinished()
-    signal textEdited()
+    signal accepted
+    signal editingFinished
+    signal textEdited
 
     function validate() {
         if (typeof validator !== "function")
-            return true
+            return true;
 
-        const result = validator(textInput.text)
+        const result = validator(textInput.text);
 
         if (result === true) {
-            hasError = false
-            errorMessage = ""
-            return true
+            hasError = false;
+            errorMessage = "";
+            return true;
         }
 
         if (typeof result === "string") {
-            hasError = true
-            errorMessage = result
-            return false
+            hasError = true;
+            errorMessage = result;
+            return false;
         }
 
-        console.warn("validator function returned an unexpected value")
-        return false
+        console.warn("validator function returned an unexpected value");
+        return false;
     }
 
     ColumnLayout {
@@ -68,9 +68,11 @@ FocusScope {
             radius: config.intValue("InputFieldBorderRadius")
 
             function getBorderColor() {
-                if (root.hasError) return config.stringValue("InputFieldErrorBorderColor")
-                if (textInput.activeFocus) return config.stringValue("InputFieldFocusedBorderColor")
-                return config.stringValue("InputFieldBorderColor")
+                if (root.hasError)
+                    return config.stringValue("InputFieldErrorBorderColor");
+                if (textInput.activeFocus)
+                    return config.stringValue("InputFieldFocusedBorderColor");
+                return config.stringValue("InputFieldBorderColor");
             }
 
             Behavior on border.color {
@@ -145,5 +147,4 @@ FocusScope {
             visible: root.hasError
         }
     }
-
 }

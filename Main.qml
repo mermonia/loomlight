@@ -11,12 +11,16 @@ Pane {
     LayoutMirroring.enabled: config.boolValue("MirroredLayout")
     LayoutMirroring.childrenInherit: true
 
-    Background {
-        anchors.fill: parent
-    }
+    // Background {
+    //     anchors.fill: parent
+    // }
+    //
+    // UserSelector {
+    //     id: userSelector
+    //     anchors.centerIn: parent
+    // }
 
-    UserSelector {
-        id: userSelector
-        anchors.centerIn: parent
+    LoginForm {
+        id: loginForm
     }
 }

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 8.4666666 8.4666666"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   sodipodi:docname="reboot.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     inkscape:zoom="32"
+     inkscape:cx="11.71875"
+     inkscape:cy="17.953125"
+     inkscape:window-width="2540"
+     inkscape:window-height="1363"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="6.573175,5.9850814"
+       end_point="6.573175,5.286348"
+       center_point="6.573175,5.6357147"
+       id="path-effect7"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="true"
+       oposite_fuse="true"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect5"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,0.52916666,0,1 @ F,0,0,1,0,0.52916666,0,1 @ F,0,0,1,0,0.52916666,0,1 @ F,0,0,1,0,0.52916666,0,1 @ F,0,0,1,0,0.52916666,0,1 @ F,0,0,1,0,0.52916666,0,1 @ F,0,0,1,0,0.52916666,0,1 @ F,0,0,1,0,0.52916666,0,1"
+       radius="2"
+       unit="px"
+       method="auto"
+       mode="F"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="0.92604166,4.2333333"
+       end_point="6.6807291,4.2333333"
+       center_point="3.8033854,4.2333333"
+       id="path-effect4"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="free"
+       discard_orig_path="true"
+       fuse_paths="true"
+       oposite_fuse="true"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect2"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1 @ F,0,0,1,0,0.26458333,0,1"
+       radius="1"
+       unit="px"
+       method="auto"
+       mode="F"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path3"
+       style="fill:#000000;stroke-width:0.302727;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+       d="M 1.5374658,6.1280486 C 1.6470429,6.2850142 1.7662282,6.4353562 1.8677207,6.5403162 2.8564403,7.5628156 4.4006419,7.8368432 5.6807584,7.216845 5.9435068,7.0895882 6.3350311,6.8160862 6.5449512,6.6131011 7.5674506,5.6243814 7.8414781,4.0801798 7.2214799,2.8000634 7.0942233,2.5373147 6.820487,2.1458039 6.6173124,1.9361665 6.2215948,1.5278606 5.7272989,1.2280816 5.1821141,1.0665896 5.1497633,1.0570074 5.1211752,1.0493483 5.0961537,1.0428024 5.1981066,0.96239017 5.5220784,0.7076958 5.6605372,0.61447131 l -0.00174,-6.8316e-4 -0.00147,-0.002113 -0.00174,-6.8324e-4 -0.00147,-0.002113 -0.00174,-6.8316e-4 -0.00174,-6.8315e-4 -0.00216,-3.8222e-4 -0.00174,-6.8315e-4 -0.00174,-6.8316e-4 -0.00254,0.001775 -0.00174,-6.8315e-4 -0.00174,-6.8324e-4 -6.832e-4,0.001735 -0.00216,-3.8221e-4 -0.6367874,0.34905547 -0.094625,0.0522379 -0.00241,0.00105 -0.00211,0.00147 -0.00978,0.00495 0.0091,-0.00321 -6.831e-4,0.00174 -3.822e-4,0.00216 -6.832e-4,0.00174 c -2.812e-4,7.298e-4 -0.00155,0.0049 -0.00175,0.00563 l -6.831e-4,0.00174 0.054391,0.1013161 0.3497343,0.6350524 0.00105,0.00241 -3.822e-4,0.00216 0.00185,-4.26e-5 0.00174,6.832e-4 0.00136,0.00284 0.00216,3.822e-4 0.00174,6.832e-4 0.00216,3.822e-4 0.00174,6.832e-4 0.00143,2.548e-4 0.00284,-0.00136 0.00174,6.831e-4 0.00241,-0.00105 0.00254,-0.00178 C 5.2559696,1.6133985 5.1148141,1.2138499 5.0748763,1.0998746 c 0.024247,0.012681 0.052823,0.026992 0.085224,0.042584 C 5.4477982,1.2809134 5.7106605,1.4660495 5.9380054,1.6902119 6.1458355,1.8951121 6.4200778,2.2872868 6.5413007,2.5528324 7.0386614,3.6423308 6.8088441,4.9357567 5.9669958,5.7876263 5.7618515,5.9952119 5.3696194,6.2692594 5.1040738,6.3904823 4.0145754,6.8878432 2.7211495,6.6580259 1.8692799,5.8161775 1.6616942,5.6110332 1.3880496,5.2190042 1.2671435,4.9533832 1.1348747,4.6627985 1.0514695,4.3522901 1.0204611,4.0345276 1.0071747,3.8983723 0.9931819,3.8241964 0.98010837,3.8143481 l -7.1955e-4,-1.277e-4 -7.1959e-4,-1.276e-4 -2.9597e-4,-4.237e-4 -7.1961e-4,-1.277e-4 -7.1953e-4,-1.276e-4 -4.2363e-4,2.96e-4 c -2.1434e-4,4.88e-5 -9.2945e-4,8.38e-5 -0.00114,1.662e-4 l -4.2372e-4,2.96e-4 c -4.248e-4,3.11e-4 -0.001698,0.00103 -0.002115,0.00148 -0.0117811,0.014693 -0.0231245,0.085961 -0.031193,0.2134286 C 0.90571847,4.5965451 1.0171524,5.1638 1.2644006,5.6758298 1.3278736,5.8072767 1.4278892,5.9710855 1.5374661,6.128051 Z"
+       inkscape:transform-center-x="-0.0034001541"
+       inkscape:transform-center-y="-0.15755395" />
+  </g>
+</svg>
