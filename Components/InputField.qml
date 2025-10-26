@@ -1,6 +1,8 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Controls
 
 FocusScope {
     id: root
@@ -13,6 +15,8 @@ FocusScope {
 
     property url leftIcon: ""
     property url rightIcon: ""
+    property bool isLeftIconConnected: false
+    property bool isRightIconConnected: false
 
     property alias text: textInput.text
     property alias echoMode: textInput.echoMode
@@ -22,6 +26,9 @@ FocusScope {
     signal accepted
     signal editingFinished
     signal textEdited
+
+    signal leftIconClicked
+    signal rightIconClicked
 
     function validate() {
         if (typeof validator !== "function")
@@ -82,6 +89,7 @@ FocusScope {
             }
 
             RowLayout {
+                id: mainRow
                 anchors.fill: parent
                 anchors {
                     topMargin: config.intValue("InputFieldVerticalPadding")
@@ -92,13 +100,37 @@ FocusScope {
                 spacing: 8
 
                 Loader {
+                    Layout.fillHeight: true
+
                     active: root.leftIcon !== ""
-                    sourceComponent: Image {
-                        id: leftIcon
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: height
-                        source: root.leftIcon
-                        fillMode: Image.PreserveAspectCrop
+                    sourceComponent: Button {
+                        id: leftIconButton
+                        property bool isConnected: root.isLeftIconConnected
+
+                        height: parent.height
+                        width: parent.width
+
+                        icon.source: root.leftIcon
+                        icon.color: {
+                            if (isConnected && down)
+                                return config.stringValue("InputFieldIconClickedColor");
+                            if (isConnected && leftIconHoverHandler.hovered)
+                                return config.stringValue("InputFieldIconHoveredColor");
+                            return config.stringValue("InputFieldIconColor");
+                        }
+                        icon.width: config.intValue("InputFieldIconWidth")
+                        icon.height: config.intValue("InputFieldIconHeight")
+
+                        background: null
+                        display: Button.IconOnly
+
+                        HoverHandler {
+                            id: leftIconHoverHandler
+                            acceptedDevices: PointerDevice.AllDevices
+                            cursorShape: Qt.PointingHandCursor
+                        }
+
+                        onClicked: root.leftIconClicked()
                     }
                 }
 
@@ -128,13 +160,37 @@ FocusScope {
                 }
 
                 Loader {
+                    Layout.fillHeight: true
+
                     active: root.rightIcon !== ""
-                    sourceComponent: Image {
-                        id: rightIcon
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: height
-                        source: root.rightIcon
-                        fillMode: Image.PreserveAspectCrop
+                    sourceComponent: Button {
+                        id: rightIconButton
+                        property bool isConnected: root.isRightIconConnected
+
+                        height: parent.height
+                        width: parent.width
+
+                        icon.source: root.rightIcon
+                        icon.color: {
+                            if (isConnected && down)
+                                return config.stringValue("InputFieldIconClickedColor");
+                            if (isConnected && rightIconHoverHandler.hovered)
+                                return config.stringValue("InputFieldIconHoveredColor");
+                            return config.stringValue("InputFieldIconColor");
+                        }
+                        icon.width: config.intValue("InputFieldIconWidth")
+                        icon.height: config.intValue("InputFieldIconHeight")
+
+                        background: null
+                        display: Button.IconOnly
+
+                        HoverHandler {
+                            id: rightIconHoverHandler
+                            acceptedDevices: PointerDevice.AllDevices
+                            cursorShape: Qt.PointingHandCursor
+                        }
+
+                        onClicked: root.rightIconClicked()
                     }
                 }
             }
