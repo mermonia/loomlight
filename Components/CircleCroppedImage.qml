@@ -32,7 +32,6 @@ Item {
         }
         live: true
         hideSource: true
-        // textureSize: Qt.size(root.width * Screen.devicePixelRatio, root.height * Screen.devicePixelRatio)
     }
 
     Rectangle {
