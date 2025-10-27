@@ -3,7 +3,7 @@ import QtQuick.Effects
 
 Item {
     id: root
-    
+
     required property int diameter
 
     property alias source: img.source
@@ -13,7 +13,7 @@ Item {
 
     width: diameter
     height: diameter
-    
+
     Image {
         id: img
         anchors.fill: parent
@@ -25,7 +25,8 @@ Item {
     ShaderEffectSource {
         id: mask
         sourceItem: Rectangle {
-            width: root.diameter; height: root.diameter
+            width: root.diameter
+            height: root.diameter
             radius: width / 2
             color: "white"
         }

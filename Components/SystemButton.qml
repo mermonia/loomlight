@@ -7,22 +7,18 @@ RoundButton {
     height: config.intValue("SystemButtonHeight")
     radius: config.intValue("SystemButtonBorderRadius")
 
+    property string backgroundColor: config.stringValue("SystemButtonBackgroundColor")
+    property string hoveredColor: config.stringValue("SystemButtonHoveredBackgroundColor")
+    property string clickedColor: config.stringValue("SystemButtonClickedBackgroundColor")
+
     readonly property int iconPadding: config.intValue("SystemButtonPadding")
 
-    function getBackgroundColor() {
-        if (down)
-            return config.stringValue("SystemButtonClickedBackgroundColor");
-        if (hoverHandler.hovered)
-            return config.stringValue("SystemButtonHoveredBackgroundColor");
-        return config.stringValue("SystemButtonBackgroundColor");
-    }
-
     background: Rectangle {
-        id: background
+        id: bg
         anchors.fill: parent
         radius: root.radius
 
-        color: root.getBackgroundColor()
+        color: root.backgroundColor
 
         Behavior on color {
             ColorAnimation {
@@ -42,4 +38,32 @@ RoundButton {
         acceptedDevices: PointerDevice.AllDevices
         cursorShape: Qt.PointingHandCursor
     }
+
+    states: [
+        State {
+            name: "clicked"
+            when: root.down
+            PropertyChanges {
+                target: bg
+                color: root.clickedColor
+            }
+        },
+        State {
+            name: "hovered"
+            when: hoverHandler.hovered
+            PropertyChanges {
+                target: bg
+                color: root.hoveredColor
+            }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            PropertyAnimation {
+                properties: "bg.color"
+                duration: 40
+            }
+        }
+    ]
 }

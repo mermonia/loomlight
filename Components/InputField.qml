@@ -1,23 +1,17 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Layouts
 
 FocusScope {
     id: root
-
     property alias labelText: label.text
-
     property var validator: undefined
     property bool hasError: false
     property alias errorMessage: errorText.text
-
     property url leftIcon: ""
-    property url rightIcon: ""
     property bool isLeftIconConnected: false
-    property bool isRightIconConnected: false
-
     property alias text: textInput.text
     property alias echoMode: textInput.echoMode
     property alias placeholderText: placeholderText.text
@@ -26,22 +20,18 @@ FocusScope {
     signal accepted
     signal editingFinished
     signal textEdited
-
     signal leftIconClicked
-    signal rightIconClicked
 
     function validate() {
         if (typeof validator !== "function")
             return true;
 
         const result = validator(textInput.text);
-
         if (result === true) {
             hasError = false;
             errorMessage = "";
             return true;
         }
-
         if (typeof result === "string") {
             hasError = true;
             errorMessage = result;
@@ -52,96 +42,139 @@ FocusScope {
         return false;
     }
 
-    ColumnLayout {
-        anchors.fill: parent
+    Column {
         spacing: 6
+        anchors.fill: parent
 
         Text {
             id: label
-            Layout.alignment: Qt.AlignLeft
             visible: config.boolValue("InputFieldHasLabel")
             color: config.stringValue("InputFieldLabelColor")
-            font.pointSize: config.stringValue("InputFieldLabelFontSize")
+            font.pointSize: config.intValue("InputFieldLabelFontSize")
         }
 
         Rectangle {
             id: background
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: config.intValue("InputFieldWidth")
-            Layout.preferredHeight: config.intValue("InputFieldHeight")
-            color: config.stringValue("InputFieldBackgroundColor")
-            border.color: getBorderColor()
-            border.width: config.intValue("InputFieldBorderWidth")
+
+            property string borderColor: config.stringValue("InputFieldBorderColor")
+            property string errorBorderColor: config.stringValue("InputFieldErrorBorderColor")
+            property string focusedBorderColor: config.stringValue("InputFieldFocusedBorderColor")
+
+            width: config.intValue("InputFieldWidth")
+            height: config.intValue("InputFieldHeight")
             radius: config.intValue("InputFieldBorderRadius")
 
-            function getBorderColor() {
-                if (root.hasError)
-                    return config.stringValue("InputFieldErrorBorderColor");
-                if (textInput.activeFocus)
-                    return config.stringValue("InputFieldFocusedBorderColor");
-                return config.stringValue("InputFieldBorderColor");
-            }
+            color: config.stringValue("InputFieldBackgroundColor")
+            border.width: config.intValue("InputFieldBorderWidth")
+            border.color: borderColor
 
-            Behavior on border.color {
-                ColorAnimation {
-                    duration: 200
+            states: [
+                State {
+                    name: "error"
+                    when: root.hasError
+                    PropertyChanges {
+                        target: background
+                        border.color: background.errorBorderColor
+                    }
+                },
+                State {
+                    name: "focused"
+                    when: textInput.activeFocus
+                    PropertyChanges {
+                        target: background
+                        border.color: background.focusedBorderColor
+                    }
                 }
-            }
+            ]
 
             RowLayout {
-                id: mainRow
-                anchors.fill: parent
+                property int vpad: config.intValue("InputFieldVerticalPadding")
+                property int hpad: config.intValue("InputFieldHorizontalPadding")
+
                 anchors {
-                    topMargin: config.intValue("InputFieldVerticalPadding")
-                    bottomMargin: config.intValue("InputFieldVerticalPadding")
-                    leftMargin: config.intValue("InputFieldHorizontalPadding")
-                    rightMargin: config.intValue("InputFieldHorizontalPadding")
+                    fill: parent
+                    topMargin: vpad
+                    bottomMargin: vpad
+                    leftMargin: hpad
+                    rightMargin: hpad
                 }
                 spacing: 8
 
                 Loader {
+                    active: root.leftIcon != ""
                     Layout.fillHeight: true
+                    Layout.preferredWidth: height
 
-                    active: root.leftIcon !== ""
                     sourceComponent: Button {
                         id: leftIconButton
+
+                        anchors.fill: parent
+
+                        property string iconColor: config.stringValue("InputFieldIconColor")
+                        property string iconHoveredColor: config.stringValue("InputFieldIconHoveredColor")
+                        property string iconClickedColor: config.stringValue("InputFieldIconClickedColor")
                         property bool isConnected: root.isLeftIconConnected
 
-                        height: parent.height
-                        width: parent.width
-
                         icon.source: root.leftIcon
-                        icon.color: {
-                            if (isConnected && down)
-                                return config.stringValue("InputFieldIconClickedColor");
-                            if (isConnected && leftIconHoverHandler.hovered)
-                                return config.stringValue("InputFieldIconHoveredColor");
-                            return config.stringValue("InputFieldIconColor");
-                        }
                         icon.width: config.intValue("InputFieldIconWidth")
                         icon.height: config.intValue("InputFieldIconHeight")
+                        icon.color: iconColor
 
                         background: null
                         display: Button.IconOnly
 
+                        onClicked: {
+                            console.log(parent.parent.width, parent.parent.height);
+                            console.log(width, height);
+                            root.leftIconClicked();
+                        }
+
                         HoverHandler {
                             id: leftIconHoverHandler
                             acceptedDevices: PointerDevice.AllDevices
-                            cursorShape: Qt.PointingHandCursor
+                            cursorShape: leftIconButton.isConnected ? Qt.PointingHandCursor : Qt.ArrowCursor
                         }
 
-                        onClicked: root.leftIconClicked()
+                        states: [
+                            State {
+                                name: "clicked"
+                                when: leftIconButton.isConnected && leftIconButton.down
+                                PropertyChanges {
+                                    target: leftIconButton
+                                    icon.color: leftIconButton.iconClickedColor
+                                }
+                            },
+                            State {
+                                name: "hovered"
+                                when: leftIconButton.isConnected && leftIconHoverHandler.hovered
+                                PropertyChanges {
+                                    target: leftIconButton
+                                    icon.color: leftIconButton.iconHoveredColor
+                                }
+                            }
+                        ]
+
+                        transitions: [
+                            Transition {
+                                PropertyAnimation {
+                                    properties: "leftIconButton.icon.color"
+                                    duration: 40
+                                }
+                            }
+                        ]
                     }
                 }
 
                 TextInput {
                     id: textInput
-                    Layout.fillWidth: true
+
                     Layout.fillHeight: true
-                    padding: 0
+                    Layout.fillWidth: true
+
                     color: config.stringValue("InputFieldTextColor")
                     font.pointSize: config.intValue("InputFieldTextFontSize")
                     verticalAlignment: TextInput.AlignVCenter
+
                     selectByMouse: true
                     clip: true
 
@@ -151,46 +184,12 @@ FocusScope {
 
                     Text {
                         id: placeholderText
-                        padding: 0
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 2
+                        visible: textInput.text === ""
                         font.pointSize: textInput.font.pointSize
                         color: config.stringValue("InputFieldPlaceholderColor")
-                        visible: textInput.text == ""
-                        anchors.verticalCenter: textInput.verticalCenter
-                    }
-                }
-
-                Loader {
-                    Layout.fillHeight: true
-
-                    active: root.rightIcon !== ""
-                    sourceComponent: Button {
-                        id: rightIconButton
-                        property bool isConnected: root.isRightIconConnected
-
-                        height: parent.height
-                        width: parent.width
-
-                        icon.source: root.rightIcon
-                        icon.color: {
-                            if (isConnected && down)
-                                return config.stringValue("InputFieldIconClickedColor");
-                            if (isConnected && rightIconHoverHandler.hovered)
-                                return config.stringValue("InputFieldIconHoveredColor");
-                            return config.stringValue("InputFieldIconColor");
-                        }
-                        icon.width: config.intValue("InputFieldIconWidth")
-                        icon.height: config.intValue("InputFieldIconHeight")
-
-                        background: null
-                        display: Button.IconOnly
-
-                        HoverHandler {
-                            id: rightIconHoverHandler
-                            acceptedDevices: PointerDevice.AllDevices
-                            cursorShape: Qt.PointingHandCursor
-                        }
-
-                        onClicked: root.rightIconClicked()
                     }
                 }
             }
