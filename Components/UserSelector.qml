@@ -1,118 +1,104 @@
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Effects
 
 Item {
     id: root
     anchors.centerIn: parent
     z: 1
 
-    width: config.intValue("CarouselWidth")
-    height: config.intValue("CarouselHeight")
+    width: config.intValue("UserSelectorWidth")
+    height: config.intValue("UserSelectorHeight")
 
-    signal selected(string name)
+    signal selected(string name, var icon)
 
     Component {
-        id: delegate
+        id: entryDelegate
 
-        Column {
-            id: wrapper
+        Item {
+            id: entryWrapper
+
+            width: GridView.view.cellWidth
+            height: GridView.view.cellHeight
 
             required property string name
             required property url icon
             required property int index
 
-            spacing: 8
-            opacity: PathView.iconOpacity
+            Rectangle {
+                id: background
 
-            property real pulseScale: 1.0
-            property real hoverScale: hoverHandler.hovered ? 1.2 : 1.0
-            scale: PathView.iconScale * hoverScale * pulseScale
+                color: config.stringValue("UserSelectorEntryBackgroundColor")
 
-            CircleCroppedImage {
-                anchors.horizontalCenter: parent.horizontalCenter
-                source: wrapper.icon
-                fillMode: Image.PreserveAspectCrop
-                diameter: config.intValue("CarouselAvatarDiameter")
+                border.width: config.intValue("UserSelectorEntryBorderWidth")
+                border.color: config.stringValue("UserSelectorEntryBorderColor")
+                radius: config.intValue("UserSelectorEntryBorderRadius")
 
-                border.width: config.stringValue("CarouselAvatarBorderWidth")
-                border.color: config.stringValue("CarouselAvatarBorderColor")
+                anchors {
+                    fill: parent
+                    centerIn: parent
+                    margins: config.intValue("UserSelectorSpacing")
+                }
+                Row {
+                    anchors {
+                        fill: parent
+                        centerIn: parent
+                        margins: config.intValue("UserSelectorEntryPadding")
+                    }
 
-                Behavior on border.color {
-                    ColorAnimation {
-                        duration: 200
+                    spacing: config.intValue("UserSelectorEntrySpacing")
+
+                    CircleCroppedImage {
+                        anchors.verticalCenter: parent.verticalCenter
+                        source: entryWrapper.icon
+                        fillMode: Image.PreserveAspectCrop
+                        diameter: config.intValue("UserSelectorAvatarDiameter")
+
+                        backgroundColor: config.stringValue("UserSelectorAvatarBackgroundColor")
+
+                        border.width: config.intValue("UserSelectorAvatarBorderWidth")
+                        border.color: config.stringValue("UserSelectorAvatarBorderColor")
+                    }
+
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: entryWrapper.name
+
+                        font.family: config.stringValue("UserSelectorFontFamily")
+                        font.pointSize: config.intValue("UserSelectorFontSize")
+                        font.bold: true
+                        color: config.stringValue("UserSelectorFontColor")
+                    }
+
+                    HoverHandler {
+                        id: hoverHandler
+                        acceptedDevices: PointerDevice.AllDevices
+                        cursorShape: Qt.PointingHandCursor
+                    }
+
+                    TapHandler {
+                        id: tapHandler
+                        acceptedDevices: PointerDevice.AllDevices
+                        gesturePolicy: TapHandler.ReleaseWithinBounds
+                        longPressThreshold: 0.5
+                        onTapped: function () {
+                            root.selected(entryWrapper.name, entryWrapper.icon);
+                        }
                     }
                 }
-            }
-
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: wrapper.name
-
-                font.family: config.stringValue("FontFamily")
-                font.pointSize: config.intValue("FontSize")
-                font.weight: Font.Light
-            }
-
-            HoverHandler {
-                id: hoverHandler
-                acceptedDevices: PointerDevice.AllDevices
-                cursorShape: Qt.PointingHandCursor
-            }
-
-            Behavior on hoverScale {
-                NumberAnimation {
-                    duration: 100
-                    easing.type: Easing.InOutQuad
-                }
-            }
-            
-            TapHandler {
-                id: tapHandler
-                acceptedDevices: PointerDevice.AllDevices
-                gesturePolicy: TapHandler.ReleaseWithinBounds
-                longPressThreshold: 0.5 
-                onTapped: function() {
-                    if (carousel.currentIndex == wrapper.index) {
-                        root.selected(wrapper.name)
-                        pulse.start()
-                    } else {
-                        carousel.currentIndex = wrapper.index
-                    }
-                }
-            }
-
-            SequentialAnimation {
-                id: pulse
-                running: false
-                NumberAnimation { target: wrapper; property: "pulseScale"; to: 1.2; duration: 75}
-                NumberAnimation { target: wrapper; property: "pulseScale"; to: 1.0; duration: 75}
             }
         }
     }
 
-    PathView {
-        id: carousel
+    GridView {
+        id: userList
         anchors.fill: parent
-        z: 1
-        pathItemCount: config.intValue("CarouselAvatarCount")
+        clip: true
+
+        cellWidth: width / config.intValue("UserSelectorNumberItemsRow")
+        cellHeight: height / config.intValue("UserSelectorNumberItemsColumn")
+
         model: userModel
-        delegate: delegate
-        preferredHighlightBegin: 0.5
-        preferredHighlightEnd: 0.5
-        path: Path {
-            startX: 0; startY: carousel.height / 2 - 32
-            PathAttribute { name: "iconScale"; value: config.realValue("CarouselMinScale") }
-            PathAttribute { name: "iconOpacity"; value: config.realValue("CarouselMinOpacity")}
-
-            PathCurve { relativeX: carousel.width / 2; relativeY: 64 }
-            PathAttribute { name: "iconScale"; value: config.realValue("CarouselMaxScale") }
-            PathAttribute { name: "iconOpacity"; value: config.realValue("CarouselMaxOpacity")}
-
-            PathCurve { relativeX: carousel.width / 2; relativeY: -64 }
-            PathAttribute { name: "iconScale"; value: config.realValue("CarouselMinScale") }
-            PathAttribute { name: "iconOpacity"; value: config.realValue("CarouselMinOpacity")}
-        }
+        delegate: entryDelegate
+        z: 1
     }
 }

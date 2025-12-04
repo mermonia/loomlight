@@ -10,6 +10,7 @@ Item {
     property alias fillMode: img.fillMode
 
     property alias border: borderHelper.border
+    property alias backgroundColor: background.color
 
     width: diameter
     height: diameter
@@ -41,8 +42,15 @@ Item {
         width: root.diameter + border.width * 2
         height: root.diameter + border.width * 2
         radius: width / 2
-        border.width: 0
-        border.color: "transparent"
+        color: "transparent"
+    }
+
+    Rectangle {
+        id: background
+        anchors.fill: root
+        anchors.centerIn: root
+        z: -1
+        radius: width / 2
         color: "transparent"
     }
 

@@ -44,16 +44,14 @@ RoundButton {
             name: "clicked"
             when: root.down
             PropertyChanges {
-                target: bg
-                color: root.clickedColor
+                bg.color: root.clickedColor
             }
         },
         State {
             name: "hovered"
             when: hoverHandler.hovered
             PropertyChanges {
-                target: bg
-                color: root.hoveredColor
+                bg.color: root.hoveredColor
             }
         }
     ]

@@ -8,8 +8,10 @@ ComboBox {
 
     property string highlightedBackgroundColor: config.stringValue("SessionSelectorDropdownHighlightedBackgroundColor")
 
-    width: config.intValue("SessionSelectorButtonWidth")
-    height: config.intValue("SessionSelectorButtonHeight")
+    property int borderRadius: config.intValue("SessionSelectorBorderRadius")
+
+    implicitWidth: config.intValue("SessionSelectorButtonWidth")
+    implicitHeight: config.intValue("SessionSelectorButtonHeight")
 
     model: sessionModel
     currentIndex: model.lastIndex
@@ -26,7 +28,10 @@ ComboBox {
             width: config.intValue("SessionSelectorButtonBorderWidth")
         }
 
-        radius: config.intValue("SessionSelectorButtonBorderRadius")
+        topRightRadius: selectSession.borderRadius
+        topLeftRadius: selectSession.borderRadius
+        bottomRightRadius: selectSession.down ? 0 : selectSession.borderRadius
+        bottomLeftRadius: selectSession.down ? 0 : selectSession.borderRadius
     }
 
     contentItem: Text {
@@ -52,7 +57,7 @@ ComboBox {
         required property string name
         required property int index
 
-        width: selectSession.width - 20
+        width: selectSession.width
 
         contentItem: Text {
             text: delegate.name
@@ -105,13 +110,13 @@ ComboBox {
 
         width: selectSession.width
         y: selectSession.height
-        padding: 10
+        padding: 0
         implicitHeight: contentItem.implicitHeight
 
         contentItem: ListView {
             id: listView
             clip: true
-            implicitHeight: contentHeight + 20
+            implicitHeight: contentHeight
             model: selectSession.popup.visible ? selectSession.delegateModel : null
             currentIndex: selectSession.highlightedIndex
             ScrollIndicator.vertical: ScrollIndicator {}
@@ -126,7 +131,8 @@ ComboBox {
                 width: config.intValue("SessionSelectorDropdownBorderWidth")
             }
 
-            radius: config.intValue("SessionSelectorDropdownBorderRadius")
+            bottomRightRadius: selectSession.borderRadius
+            bottomLeftRadius: selectSession.borderRadius
         }
 
         enter: Transition {
