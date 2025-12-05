@@ -7,6 +7,7 @@ ComboBox {
     id: selectSession
 
     property string highlightedBackgroundColor: config.stringValue("SessionSelectorDropdownHighlightedBackgroundColor")
+    property string bgColor: config.stringValue("SessionSelectorButtonBackgroundColor")
 
     property int borderRadius: config.intValue("SessionSelectorBorderRadius")
 
@@ -19,9 +20,20 @@ ComboBox {
 
     hoverEnabled: true
 
+    states: [
+        State {
+            name: "focused"
+            when: selectSession.focus
+            PropertyChanges {
+                bg.color: config.stringValue("SessionSelectorButtonFocusedBackgroundColor")
+            }
+        }
+    ]
+
     background: Rectangle {
+        id: bg
         anchors.fill: parent
-        color: config.stringValue("SessionSelectorButtonBackgroundColor")
+        color: selectSession.bgColor
 
         border {
             color: config.stringValue("SessionSelectorButtonBorderColor")
@@ -72,7 +84,6 @@ ComboBox {
         }
 
         background: Rectangle {
-            // radius: config.RoundCorners / 3
             id: bg
             color: "transparent"
 

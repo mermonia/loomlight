@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 
-Item {
+FocusScope {
     id: root
 
     property alias avatarIcon: userAvatarButton.icon
@@ -14,6 +14,10 @@ Item {
     signal rebootClicked
     signal suspendClicked
     signal hibernateClicked
+
+    onFocusChanged: function () {
+        userField.forceActiveFocus();
+    }
 
     states: [
         State {
@@ -49,6 +53,13 @@ Item {
             id: userField
             Layout.alignment: Qt.AlignCenter
             leftIcon: Qt.resolvedUrl("../Assets/user.svg")
+
+            onAccepted: function () {
+                root.login();
+            }
+
+            focus: true
+            KeyNavigation.tab: passwordField
         }
 
         InputField {
@@ -59,6 +70,13 @@ Item {
             onLeftIconClicked: function () {
                 root.passwordHidden = !root.passwordHidden;
             }
+
+            onAccepted: function () {
+                root.login();
+            }
+
+            KeyNavigation.backtab: userField
+            KeyNavigation.tab: loginButton
         }
 
         LoginButton {
@@ -67,9 +85,11 @@ Item {
             Layout.topMargin: 40
 
             onClicked: function () {
-                console.log(userField.text, passwordField.text, sessionSelector.currentIndex);
-                sddm.login(userField.text, passwordField.text, sessionSelector.currentIndex);
+                root.login();
             }
+
+            KeyNavigation.backtab: passwordField
+            KeyNavigation.tab: systemButtons
         }
 
         Row {
@@ -79,36 +99,76 @@ Item {
             Layout.bottomMargin: 40
             spacing: 4
 
+            onFocusChanged: function () {
+                if (systemButtons.focus) {
+                    powerOffButton.forceActiveFocus();
+                }
+            }
+
             SystemButton {
+                id: powerOffButton
                 visible: !sddm.canPowerOff
                 icon.source: Qt.resolvedUrl("../Assets/shutdown.svg")
                 onClicked: root.powerOffClicked()
+
+                focus: true
+                KeyNavigation.backtab: loginButton
+                KeyNavigation.tab: rebootButton
             }
 
             SystemButton {
+                id: rebootButton
                 visible: !sddm.canReboot
                 icon.source: Qt.resolvedUrl("../Assets/reboot.svg")
                 onClicked: root.rebootClicked()
+
+                KeyNavigation.backtab: powerOffButton
+                KeyNavigation.tab: suspendButton
             }
 
             SystemButton {
+                id: suspendButton
                 visible: !sddm.canSuspend
                 icon.source: Qt.resolvedUrl("../Assets/suspend.svg")
                 onClicked: root.suspendClicked()
+
+                KeyNavigation.backtab: rebootButton
+                KeyNavigation.tab: hibernateButton
             }
 
             SystemButton {
+                id: hibernateButton
                 visible: !sddm.canHibernate
                 icon.source: Qt.resolvedUrl("../Assets/hibernate.svg")
                 onClicked: root.hibernateClicked()
+
+                KeyNavigation.backtab: suspendButton
+                KeyNavigation.tab: sessionSelector
             }
         }
 
         SessionSelector {
             id: sessionSelector
             Layout.alignment: Qt.AlignCenter
+
+            KeyNavigation.backtab: hibernateButton
         }
 
         z: 1
+    }
+
+    function login() {
+        userField.clearError();
+        passwordField.clearError();
+        sddm.login(userField.text, passwordField.text, sessionSelector.currentIndex);
+    }
+
+    Connections {
+        target: sddm
+
+        function onLoginFailed() {
+            userField.triggerError("");
+            passwordField.triggerError("Login failed!");
+        }
     }
 }

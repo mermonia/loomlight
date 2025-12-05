@@ -49,7 +49,7 @@ RoundButton {
         },
         State {
             name: "hovered"
-            when: hoverHandler.hovered
+            when: hoverHandler.hovered || root.focus
             PropertyChanges {
                 bg.color: root.hoveredColor
             }

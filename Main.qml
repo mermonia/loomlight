@@ -197,4 +197,8 @@ Pane {
     function getConfirmationMessage(actionName) {
         return "Are you sure you want to " + actionName + "?";
     }
+
+    Component.onCompleted: function () {
+        Qt.callLater(() => loginForm.forceActiveFocus());
+    }
 }

@@ -53,7 +53,7 @@ RoundButton {
         },
         State {
             name: "hovered"
-            when: hoverHandler.hovered
+            when: hoverHandler.hovered || root.focus
             PropertyChanges {
                 bg.color: config.stringValue("LoginButtonHoveredBackgroundColor")
                 bg.border.color: config.stringValue("LoginButtonHoveredBorderColor")

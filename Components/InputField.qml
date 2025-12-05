@@ -26,6 +26,11 @@ FocusScope {
     signal textEdited
     signal leftIconClicked
 
+    onFocusChanged: function () {
+        if (focus)
+            textInput.forceActiveFocus();
+    }
+
     implicitWidth: background.width
     implicitHeight: background.height + errorText.implicitHeight + column.spacing * 2
 
@@ -263,5 +268,15 @@ FocusScope {
         }
         console.warn("validator function returned an unexpected value");
         return false;
+    }
+
+    function triggerError(message) {
+        hasError = true;
+        errorMessage = message;
+    }
+
+    function clearError(message) {
+        hasError = false;
+        errorMessage = "";
     }
 }
